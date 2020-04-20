@@ -4,12 +4,12 @@ import time
 
 pygame.init()
 
-w, h = 100, 100
+w, h = 800, 800
 screen = pygame.display.set_mode((h, w))
-bg = 25,25,25
+bg = 0,26,51
 screen.fill(bg)
 
-nxC, nyC = 25, 25
+nxC, nyC = 50, 50
 dimCW = w / nxC
 dimCh = h / nyC
 
@@ -60,12 +60,14 @@ while True:
 					((x)*dimCW, (y+1)*dimCh)]
 
 			if new_game_state[x,y] == 0:
-				pygame.draw.polygon(screen, (128, 128, 128), poly, 1)
+				pygame.draw.polygon(screen, (100, 100, 100), poly, 1)
+				#pygame.display.update()
 
 			else:
 				pygame.draw.polygon(screen, (255, 255, 255), poly, 0)
+				#pygame.display.update()
 
 	gameState = np.copy(new_game_state)
 
 
-pygame.display.flip()
+	pygame.display.flip()
