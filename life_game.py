@@ -4,29 +4,29 @@ import time
 
 pygame.init()
 
-w, h = 800, 800
+w, h = 1000, 1000
 screen = pygame.display.set_mode((h, w))
 bg = 0,26,51
 screen.fill(bg)
 
-nxC, nyC = 50, 50
+nxC, nyC = 100, 100
 dimCW = w / nxC
 dimCh = h / nyC
 
 gameState = np.zeros((nxC, nyC))
 
-gameState[5, 3] = 1
-gameState[5, 4] = 1
-gameState[5, 5] = 1
 
-gameState[21, 21] = 1
-gameState[22,22] = 1
-gameState[22, 23] = 1
-gameState[21, 23] = 1
-gameState[20, 23] = 1
+
+gameState[50, 30] = 1
+gameState[50, 31] = 1
+gameState[50, 32] = 1
+gameState[49, 32] = 1
+gameState[48, 31] = 1
 
 
 
+
+pause = False
 
 
 while True:
@@ -35,24 +35,40 @@ while True:
 	screen.fill(bg)
 	time.sleep(0.1)
 
+	events = pygame.event.get()
+
+	for event in events:
+		if event.type == pygame.KEYDOWN:
+			pause = not pause
+
+		click = pygame.mouse.get_pressed()
+
+		if sum(click) > 0:
+			pos_x, pos_y = pygame.mouse.get_pos()
+			cel_x, cel_y = int(np.floor(pos_x/dimCW)), int(np.floor(pos_y/dimCh))
+			new_game_state[cel_x, cel_y] = not click[2]
+
+
 	for y in range(0, nxC):
 		for x in range(0, nyC):
-			n_neigh = gameState[(x-1)%nxC, (y-1)%nyC] +\
-					  gameState[(x)%nxC, (y-1)%nyC] +\
-					  gameState[(x+1)%nxC, (y-1)%nyC] +\
-					  gameState[(x-1)%nxC, (y)%nyC] +\
-					  gameState[(x+1)%nxC, (y)%nyC] +\
-					  gameState[(x-1)%nxC, (y+1)%nyC] +\
-					  gameState[(x)%nxC, (y+1)%nyC] +\
-					  gameState[(x+1)%nxC, (y+1)%nyC]
+			if not pause:
 
-			#Rules
-	
-			if gameState[x, y] == 0 and n_neigh == 3:
-				new_game_state[x, y] = 1
+				n_neigh = gameState[(x-1)%nxC, (y-1)%nyC] +\
+						  gameState[(x)%nxC, (y-1)%nyC] +\
+						  gameState[(x+1)%nxC, (y-1)%nyC] +\
+						  gameState[(x-1)%nxC, (y)%nyC] +\
+						  gameState[(x+1)%nxC, (y)%nyC] +\
+						  gameState[(x-1)%nxC, (y+1)%nyC] +\
+						  gameState[(x)%nxC, (y+1)%nyC] +\
+						  gameState[(x+1)%nxC, (y+1)%nyC]
 
-			elif gameState[x,y]==1 and n_neigh > 1 and (n_neigh > 3 or n_neigh < 2):
-				new_game_state[x,y]=0
+				#Rules
+		
+				if gameState[x, y] == 0 and n_neigh == 3:
+					new_game_state[x, y] = 1
+
+				elif gameState[x,y]==1 and n_neigh > 1 and (n_neigh > 3 or n_neigh < 2):
+					new_game_state[x,y]=0
 
 			poly = [((x)*dimCW, y*dimCh), 
 					((x+1)*dimCW, y*dimCh),
