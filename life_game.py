@@ -9,7 +9,7 @@ screen = pygame.display.set_mode((h, w))
 bg = 0,26,51
 screen.fill(bg)
 
-nxC, nyC = 100, 100
+nxC, nyC = 250, 250
 dimCW = w / nxC
 dimCh = h / nyC
 
@@ -24,6 +24,43 @@ gameState[49, 32] = 1
 gameState[48, 31] = 1
 
 
+#nave
+gameState[110, 100] = 1
+gameState[111, 99] = 1
+gameState[111, 101] = 1
+gameState[112, 98] = 1
+gameState[112, 102] = 1
+gameState[113, 99] = 1
+gameState[113, 101] = 1
+
+#vol
+gameState[200, 150] = 1
+gameState[200, 151] = 1
+gameState[200, 152] = 1
+gameState[201, 150] = 1
+gameState[201, 151] = 1
+gameState[201, 152] = 1
+gameState[202, 150] = 1
+gameState[202, 152] = 1
+
+
+#car
+gameState[80, 50] = 1
+gameState[80, 51] = 1
+gameState[80, 52] = 1
+gameState[81, 51] = 1
+gameState[82, 50] = 1
+gameState[82, 52] = 1
+
+#nave2
+gameState[200, 80] = 1
+gameState[200, 81] = 1
+gameState[199, 81] = 1
+gameState[201, 81] = 1
+gameState[201, 82] = 1
+gameState[202, 82] = 1
+gameState[199, 82] = 1
+gameState[198, 82] = 1
 
 
 pause = False
@@ -33,7 +70,7 @@ while True:
 
 	new_game_state = np.copy(gameState)
 	screen.fill(bg)
-	time.sleep(0.1)
+	#time.sleep(0.1)
 
 	events = pygame.event.get()
 
@@ -67,7 +104,7 @@ while True:
 				if gameState[x, y] == 0 and n_neigh == 3:
 					new_game_state[x, y] = 1
 
-				elif gameState[x,y]==1 and n_neigh > 1 and (n_neigh > 3 or n_neigh < 2):
+				elif gameState[x,y] == 1 and (n_neigh > 3 or n_neigh < 2):
 					new_game_state[x,y]=0
 
 			poly = [((x)*dimCW, y*dimCh), 
